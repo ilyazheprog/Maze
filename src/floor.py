@@ -1,8 +1,7 @@
 import pygame
 
-from window import root
-from config import *
-from cell import Cell
+from .config import *
+from .cell import Cell
 
 
 class Floor:

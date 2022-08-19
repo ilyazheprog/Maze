@@ -1,7 +1,7 @@
 import pygame
 
-from window import root
-from config import *
+from .window import root
+from .config import *
 
 
 class Cell:

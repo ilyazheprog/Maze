@@ -1,46 +1,45 @@
 import pygame
 from pygame.locals import *
-from time import sleep
-from random import randint
-from config import *
-from window import root
-from player import player
-from text import Text
-from exp import Exp
-from wall import Wall
-from maze import Maze
-from cell import Cell
-from floor import fl
+from random import choice
+
+from src.config import *
+from src.window import root
+from src.player import player
+from src.text import Text
+from src.exp import Exp
+from src.maze import Maze
+from src.floor import fl
+from src.sounds import collect
 
 clock = pygame.time.Clock()
 maze = Maze()
+lups = [c.pos for r in fl.floor for c in r]
 
-collect = pygame.mixer.Sound('src/sounds/collected.mp3')
 
-e=[Exp((randint(96, 1000), randint(96, 600-33+1))) for _ in range(10)]
+e=[Exp(choice(lups)) for _ in range(10)]
 while 1:
     root.fill(WHITE)
-    fl.draw()
-    '''
-    t=Text(f"Score: {player.score}", 'serif', 20)
-    t.draw((1100,  20))
-    if not len(e):
-        maze = Maze()
-        e = [Exp((randint(96, 1000), randint(98, 600 -33 + 1))) for _ in range(10)]
-        player.cur_pos = (30, 50)
-        
-    maze.build()'''
+    #maze.build()
 
     player.draw()
 
-    '''for o in e:
+    for o in e:
         o.draw()
         if o.is_touched(player):
             player.score+=1
             collect.play()
             e.remove(o)
+    fl.draw()
 
-    for w in maze.walls:
+    t=Text(f"Score: {player.score}", 'serif', 20)
+    t.draw((1100,  20))
+    if not len(e):
+        #maze = Maze()
+        #e = [Exp()) for _ in range(10)]
+        player.cur_pos = (30, 50)
+
+
+    '''for w in maze.walls:
         if w.touch(player):
             player.cur_pos=player.prev_pos'''
 

@@ -2,9 +2,8 @@ import pygame
 
 from random import randint
 
-from config import *
-from window import root
-from wall import Wall
+from .config import *
+from .wall import Wall
 
 
 class Maze:

@@ -1,6 +1,6 @@
 import pygame
 
-from window import root
+from .window import root
 
 
 class Wall:
