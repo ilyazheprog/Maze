@@ -1,5 +1,6 @@
 import pygame
-from window import root
+from .window import root
+
 
 class Text:
     def __init__(self, text, font, size):
