@@ -1,22 +1,25 @@
 import pygame
+from random import randint
 
 from .window import root
-from .config import EXP, R
+from .floor import fl
+from .config import *
 
 
-class Exp(pygame.sprite.Sprite):
-    def __init__(self, pos, color=EXP, r=R, *groups):
-        super().__init__(*groups)
+exp = [None for _ in range(COUNT_CELL_HORIZONTAL**2)]
+
+class Exp:
+    def __init__(self, cell, color=EXP, r=R):
         self.color = color
         self.r = r
-        self.pos = pos
+        self.cell = cell
 
     def draw(self):
-        x, y = self.pos
+        x, y = fl[self.cell].pos
         pygame.draw.circle(root.screen, self.color, (x + self.r, y + self.r), self.r)
-    def collider(self):
-        x, y = self.pos
-        return pygame.Rect(x-self.r, y-self.r, 1, 1)
 
-    def is_touched(self, pl):
-        return self.collider().center == pl.center
+
+for _ in range(10):
+    cell = randint(1, COUNT_CELL_VERTICAL**2-1)
+    fl[cell].is_exp = True
+    exp[cell] = Exp(cell)

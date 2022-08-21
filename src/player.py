@@ -5,11 +5,11 @@ from time import sleep
 
 from .window import root
 from .config import *
-from .sounds import crashing
+from .sounds import *
 from .floor import fl
+from .exp import exp
 
 
-# пока круг
 class Player:
     def __init__(self, color, r, cell):
         self.color = color
@@ -50,17 +50,11 @@ class Player:
             else:
                 crashing.play()
 
-    def collider(self):
-        x, y = fl[self.cell].pos
-        return pygame.Rect(x, y, CELL_W-10, CELL_H-10)
+        if fl[self.cell].is_exp:
+            self.score += 1
+            collect.play()
+            fl[self.cell].is_exp = False
+            exp[self.cell] = None
 
 
 player = Player(COLOR_FOR_PLAYER, R, 52)
-'''
-OOOO
-OOOO
-
-H=2; W=4
-N=0  ---> N=4
-
-'''
