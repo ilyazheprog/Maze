@@ -6,50 +6,61 @@ from time import sleep
 from .window import root
 from .config import *
 from .sounds import crashing
+from .floor import fl
 
 
 # пока круг
 class Player:
-    def __init__(self, color, r, pos):
+    def __init__(self, color, r, cell):
         self.color = color
         self.r = r
-        self.cur_pos = pos
-        self.prev_pos = None
+        self.cell = cell
         self.score = 0
 
+    @property
+    def center(self):
+        x, y = fl[self.cell].pos
+        return x + self.r, y + self.r
+
     def draw(self):
-        pygame.draw.circle(root.screen, self.color, self.cur_pos, self.r)
+        x, y = fl[self.cell].pos
+        # pygame.draw.rect(root.screen, BLUE, self.collider())
+        pygame.draw.circle(root.screen, self.color, (x + self.r, y + self.r), self.r)
 
     def move(self):
-        x, y = self.cur_pos
-        self.prev_pos = self.cur_pos
-        sleep(.045)
+        sleep(.1)
         if pygame.key.get_pressed()[K_LEFT]:
-            if x - 2*R >=0:
-                x -= 2*R
+            if not fl[self.cell].is_left_border:
+                self.cell -= 1
             else:
                 crashing.play()
         elif pygame.key.get_pressed()[K_RIGHT]:
-            if x + 2*R < W:
-                x += 2*R
+            if not fl[self.cell].is_right_border:
+                self.cell += 1
             else:
                 crashing.play()
         elif pygame.key.get_pressed()[K_UP]:
-            if y - 2*R >=0:
-                y -= 2*R
+            if not fl[self.cell].is_up_border:
+                self.cell -= COUNT_CELL_HORIZONTAL
             else:
                 crashing.play()
         elif pygame.key.get_pressed()[K_DOWN]:
-            if y + 2*R <= H:
-                y += 2*R
+            if not fl[self.cell].is_bottom_border:
+                self.cell += COUNT_CELL_HORIZONTAL
             else:
                 crashing.play()
 
-        self.cur_pos = x, y
-
     def collider(self):
-        x, y = self.cur_pos
-        return pygame.Rect(x - self.r, y - self.r, CELL_W, CELL_H)
+        x, y = fl[self.cell].pos
+        return pygame.Rect(x, y, CELL_W-10, CELL_H-10)
 
 
-player = Player(COLOR_FOR_PLAYER, R, (R, R))
+player = Player(COLOR_FOR_PLAYER, R, 52)
+'''
+OOOO
+OOOO
+
+H=2; W=4
+N=0  ---> N=4
+
+'''
