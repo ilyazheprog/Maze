@@ -28,7 +28,7 @@ class Player:
         pygame.draw.circle(root.screen, self.color, (x + self.r, y + self.r), self.r)
 
     def move(self):
-        sleep(.05)
+        sleep(.1)
         if pygame.key.get_pressed()[K_LEFT]:
             if not fl[self.cell].is_left_border:
                 self.cell -= 1

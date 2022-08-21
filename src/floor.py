@@ -6,19 +6,19 @@ from .cell import Cell
 
 class Floor:
     def __init__(self):
-        self.floor = [[Cell((i, j), CELL_W, CELL_H) for i in range(0, W - CELL_W + 1, CELL_W)]
-                      for j in range(0, H - CELL_H+ 1, CELL_H)]
+        self.floor = [[Cell((i, j), CELL_W, CELL_H) for i in range(0, W, CELL_W+BORDER)]
+                      for j in range(0, H, CELL_H+BORDER)]
         w, h = len(self.floor[0]), len(self.floor)
         for i in range(h):
             for j in range(w):
                 if i == 0:
                     self.floor[i][j].is_up_border = True
-                elif i == h - 1:
+                elif i == h - 2:
                     self.floor[i][j].is_bottom_border = True
 
                 if j == 0:
                     self.floor[i][j].is_left_border = True
-                elif j == w - 1:
+                elif j == w - 2:
                     self.floor[i][j].is_right_border = True
 
     def draw(self):
