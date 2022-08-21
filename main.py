@@ -15,7 +15,7 @@ maze = Maze()
 
 while 1:
     root.fill(WHITE)
-    #maze.build()
+    maze.build()
 
     player.draw()
 

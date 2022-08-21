@@ -21,5 +21,8 @@ class Exp:
 
 for _ in range(10):
     cell = randint(1, COUNT_CELL_VERTICAL**2-1)
+    if fl[cell].is_wall:
+        while fl[cell].is_wall:
+            cell = randint(1, COUNT_CELL_VERTICAL ** 2 - 1)
     fl[cell].is_exp = True
     exp[cell] = Exp(cell)

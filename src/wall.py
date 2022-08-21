@@ -1,20 +1,14 @@
 import pygame
 
 from .window import root
+from .floor import fl
+from .config import *
 
 
 class Wall:
-    def __init__(self, left_up_point, w, h):
-        self.lup = left_up_point
-        self.w = w
-        self.h = h
-        self.wall = self.collider()
+    def __init__(self, cell):
+        self.cell = cell
+        fl[self.cell].is_wall = True
 
     def draw(self):
-        pygame.draw.rect(root.screen, (0, 0, 0), self.wall)
-
-    def collider(self):
-        return pygame.Rect(*self.lup, self.w, self.h)
-
-    def touch(self, player):
-        return self.wall.colliderect(player.collider())
+        pygame.draw.rect(root.screen, (0, 0, 0), pygame.Rect(*fl[self.cell].pos, CELL_W, CELL_H))

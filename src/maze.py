@@ -8,7 +8,7 @@ from .wall import Wall
 
 class Maze:
     def __init__(self):
-        self.walls = [Wall((randint(0, W), randint(0, H)), 20, randint(10, 80)) for _ in range(10)]
+        self.walls = [Wall(randint(1, COUNT_CELL_HORIZONTAL**2)) for _ in range(50)]
 
     def build(self):
         for w in self.walls:
