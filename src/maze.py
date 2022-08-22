@@ -23,12 +23,12 @@ class Maze:
     def generate_walls(self, seed=None):
         if seed is not None:
             se(seed)
-        return [Wall(randint(1, COUNT_CELL_HORIZONTAL ** 2)) for _ in range(50)]
+        return [Wall(randint(1, COUNT_CELL_HORIZONTAL ** 2-1)) for _ in range(50)]
 
     def generate_exps(self, seed=None):
         if seed is not None:
             se(seed)
-        _exps = [None for _ in range(COUNT_CELL_HORIZONTAL**2)]
+        _exps = [None for _ in range(1, COUNT_CELL_HORIZONTAL**2-1)]
 
         for _ in range(10):
             cell = randint(1, COUNT_CELL_VERTICAL ** 2 - 1)
@@ -41,13 +41,15 @@ class Maze:
 
         return _exps
 
-    def build(self):
+    def build(self, surface):
+        fl.draw(surface)
+
         for w in self.__walls:
-            w.draw()
+            w.draw(surface)
 
         for e in self.__exps:
             if e is not None:
-                e.draw()
+                e.draw(surface)
 
 
 maze = Maze()

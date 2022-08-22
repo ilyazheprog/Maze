@@ -1,6 +1,6 @@
 import pygame
 
-from .window import root
+
 from .config import *
 
 
@@ -8,8 +8,6 @@ class Cell:
     def __init__(self, pos, w=CELL_W, h=CELL_H, is_left_border=False, is_right_border=False, is_up_border=False,
                  is_bottom_border=False, is_exp=False, is_wall=False):
         self.__pos = pos[0] + BORDER, pos[1] + BORDER
-        '''self.__x, self.__y = pos
-        self.__pos = self.__x + BORDER'''
         self.__w = w
         self.__h = h
         self.__is_left_border = is_left_border
@@ -72,8 +70,8 @@ class Cell:
     def is_wall(self, value):
         self.__is_wall = value
 
-    def draw(self):
-        pygame.draw.rect(root.screen, width=BORDER, color=(0, 0, 0), rect=self.__cell)
+    def draw(self, surface):
+        pygame.draw.rect(surface, width=BORDER, color=(0, 0, 0), rect=self.__cell)
 
 
 def next_pos():

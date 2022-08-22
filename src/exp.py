@@ -1,7 +1,7 @@
 import pygame
 from random import randint
 
-from .window import root
+
 from .floor import fl
 from .config import *
 
@@ -24,8 +24,8 @@ class Exp:
             fl[cell].is_exp = True
             exp[cell] = Exp(cell)
 
-    def draw(self):
+    def draw(self, surface):
         x, y = fl[self.__cell].pos
-        pygame.draw.circle(root.screen, self.__color, (x + R, y + R), R)
+        pygame.draw.circle(surface, self.__color, (x + R, y + R), R)
 
 
