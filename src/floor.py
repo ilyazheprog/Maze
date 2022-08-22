@@ -1,42 +1,34 @@
 import pygame
 
 from .config import *
-from .cell import Cell
+from .cell import Cell, next_pos
 
 
 class Floor:
     def __init__(self):
-        self.floor = [[Cell((i, j), CELL_W, CELL_H) for i in range(0, W, CELL_W+BORDER)]
-                      for j in range(0, H, CELL_H+BORDER)]
-        w, h = len(self.floor[0]), len(self.floor)
-        for i in range(h):
-            for j in range(w):
-                if i == 0:
-                    self.floor[i][j].is_up_border = True
-                elif i == h - 2:
-                    self.floor[i][j].is_bottom_border = True
+        self.__it = iter(next_pos())
 
-                if j == 0:
-                    self.floor[i][j].is_left_border = True
-                elif j == w - 2:
-                    self.floor[i][j].is_right_border = True
+        self.__floor = [None] * COUNT_CELL_HORIZONTAL**2
 
-    def draw(self):
-        for row in self.floor:
-            for c in row:
-                c.draw()
+        for i in range(COUNT_CELL_HORIZONTAL**2):
+            cell = Cell(next(self.__it))
+            self.__floor[i] = cell
+            if i < COUNT_CELL_HORIZONTAL:
+                self.__floor[i].is_up_border = True
+            elif i + COUNT_CELL_HORIZONTAL + 1 > COUNT_CELL_HORIZONTAL*(COUNT_CELL_HORIZONTAL-1):
+                self.__floor[i].is_bottom_border = True
+
+            if i % COUNT_CELL_HORIZONTAL == 0:
+                self.__floor[i].is_left_border = True
+            elif (i + 2) % COUNT_CELL_HORIZONTAL == 0:
+                self.__floor[i].is_right_border = True
+
+    def draw(self, surface):
+        for c in self.__floor:
+            c.draw(surface)
 
     def __getitem__(self, item):
-        return self.floor[item // COUNT_CELL_VERTICAL][item % COUNT_CELL_HORIZONTAL]
-
-    def get_num_from_pos(self, pos):
-        num = None
-        for i in range(COUNT_CELL_VERTICAL):
-            for j in range(COUNT_CELL_HORIZONTAL):
-                if self.floor[i][j] == pos:
-                    index = i, j
-                    break
-        return num
+        return self.__floor[item]
 
 
 fl = Floor()

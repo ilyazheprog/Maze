@@ -3,11 +3,10 @@ from pygame.locals import *
 
 from time import sleep
 
-from .window import root
 from .config import *
+from .maze import maze
 from .sounds import *
 from .floor import fl
-from .exp import exp
 
 
 class Player:
@@ -17,10 +16,10 @@ class Player:
         self.cell = cell
         self.score = 0
 
-    def draw(self):
+    def draw(self, surface):
         x, y = fl[self.cell].pos
         # pygame.draw.rect(root.screen, BLUE, self.collider())
-        pygame.draw.circle(root.screen, self.color, (x + self.r, y + self.r), self.r)
+        pygame.draw.circle(surface, self.color, (x + self.r, y + self.r), self.r)
 
     def move(self):
         sleep(.1)
@@ -39,8 +38,8 @@ class Player:
                 self.cell -= COUNT_CELL_HORIZONTAL
             else:
                 crashing.play()
-        elif pygame.key.get_pressed()[K_DOWN] and not fl[self.cell + COUNT_CELL_HORIZONTAL].is_wall:
-            if not fl[self.cell].is_bottom_border:
+        elif pygame.key.get_pressed()[K_DOWN]:
+            if not fl[self.cell].is_bottom_border and not fl[self.cell + COUNT_CELL_HORIZONTAL].is_wall:
                 self.cell += COUNT_CELL_HORIZONTAL
             else:
                 crashing.play()
@@ -48,8 +47,8 @@ class Player:
         if fl[self.cell].is_exp:
             self.score += 1
             collect.play()
-            fl[self.cell].is_exp = False
-            exp[self.cell] = None
+            maze.remove(self.cell)
+
 
 
 player = Player(COLOR_FOR_PLAYER, R, 0)
