@@ -18,7 +18,7 @@ class Player:
 
     def draw(self, surface):
         x, y = fl[self.cell].pos
-        # pygame.draw.rect(root.screen, BLUE, self.collider())
+        # pygame.draw.rect(root.__screen, BLUE, self.collider())
         pygame.draw.circle(surface, self.color, (x + self.r, y + self.r), self.r)
 
     def move(self):
