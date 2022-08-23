@@ -23,9 +23,9 @@ class Maze:
     def generate_walls(self, seed=None):
         if seed is not None:
             se(seed)
-        _walls = [None for _ in range(1, COUNT_CELL_HORIZONTAL**2-1)]
+        _walls = [None for _ in range(COUNT_CELL_HORIZONTAL**2)]
         for _ in range(50):
-            cell = randint(1, COUNT_CELL_HORIZONTAL ** 2-1)
+            cell = randint(1, COUNT_CELL_HORIZONTAL ** 2 -1)
             fl[cell].is_wall = True
             _walls[cell] = Wall(cell)
 
@@ -34,12 +34,12 @@ class Maze:
     def generate_exps(self, seed=None):
         if seed is not None:
             se(seed)
-        _exps = [None for _ in range(1, COUNT_CELL_HORIZONTAL**2-1)]
+        _exps = [None for _ in range(COUNT_CELL_HORIZONTAL**2)]
 
         for _ in range(10):
             cell = randint(1, COUNT_CELL_VERTICAL ** 2 - 1)
 
-            while fl[cell].is_wall and fl[cell].is_exp:
+            while fl[cell].is_wall or fl[cell].is_exp:
                 cell = randint(1, COUNT_CELL_VERTICAL ** 2 - 1)
 
             fl[cell].is_exp = True

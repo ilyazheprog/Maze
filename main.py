@@ -1,5 +1,3 @@
-import pygame
-
 from src.game import game
 from src.window import root
 
@@ -9,8 +7,4 @@ def main():
 
 
 if __name__ == "__main__":
-    while True:
-        try:
-            main()
-        except IndexError:
-            ...
+    main()

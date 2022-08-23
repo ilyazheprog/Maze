@@ -1,6 +1,6 @@
 import pygame
 
-from .config import W, H
+pygame.font.init()
 
 font = pygame.font.SysFont("Arial", 20)
 
@@ -35,7 +35,3 @@ class Button:
             if pygame.mouse.get_pressed()[0]:
                 if self.rect.collidepoint(x, y):
                     return True
-
-
-
-#button_for_pause = Button("Continue", (W//3, H//2-50), font=80, bg="navy")

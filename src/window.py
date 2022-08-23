@@ -30,8 +30,11 @@ class Window:
     def update():
         pygame.display.update()
 
-    def fill(self, color):
-        self.screen.fill(color)
+    def fill(self, color=None, img=None):
+        if color is not None:
+            self.screen.fill(color)
+        else:
+            self.screen.blit(img, (0, 0))
 
     def set_capture(self, capture):
         pygame.display.set_caption(capture)

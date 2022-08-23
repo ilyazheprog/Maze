@@ -32,14 +32,16 @@ class Game:
             pygame.event.pump()
 
     def pause(self, root):
-        root.fill(WHITE)
+        bg = pygame.image.load("resources/images/pause background.png")
+        root.fill(img=bg)
         root.set_capture("Maze [paused]")
-        button = Button("Continue", (W // 3, H // 2 - 50), font=80, bg="navy")
+        paused = Text("Paused", "Arial", 200)
+        paused.draw(root.screen, 87, 50)
+        score = Text(f"Current score: {player.score}", "Arial", 90, GREEN)
+        score.draw(root.screen, 87, 300)
+
+        button = Button("       Continue        ", (89, 550), font=80, bg="navy")
         button.show(root)
-        paused = Text("Paused", "Arial", 100)
-        paused.draw(root.screen, W//3, H//10)
-        score = Text(f"Current score: {player.score}", "Arial", 50, GREEN)
-        score.draw(root.screen, W//3-10, H//10+140)
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or pygame.key.get_pressed()[K_q]:
