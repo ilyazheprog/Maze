@@ -39,9 +39,10 @@ class Player:
             else:
                 crashing.play()
         elif pygame.key.get_pressed()[K_DOWN]:
-            if not fl[self.cell].is_bottom_border and not fl[self.cell + COUNT_CELL_HORIZONTAL].is_wall:
+            if not fl[self.cell].is_bottom_border and self.cell + COUNT_CELL_HORIZONTAL < COUNT_CELL_HORIZONTAL**2 and not fl[self.cell + COUNT_CELL_HORIZONTAL].is_wall:
                 self.cell += COUNT_CELL_HORIZONTAL
             else:
+                print(self.cell)
                 crashing.play()
 
         if fl[self.cell].is_exp:

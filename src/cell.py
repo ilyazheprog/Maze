@@ -75,6 +75,6 @@ class Cell:
 
 
 def next_pos():
-    for j in range(0, H, CELL_H + BORDER):
-        for i in range(0, W, CELL_W + BORDER):
+    for j in range(0, H-1, CELL_H):
+        for i in range(0, W-1, CELL_W):
             yield i, j
