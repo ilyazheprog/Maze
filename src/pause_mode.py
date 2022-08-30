@@ -10,7 +10,7 @@ from .game import game
 
 class PauseMode:
     def __init__(self):
-        self.bg = pygame.image.load("resources/images/pause background.png")
+        self.bg = BACKGROUND_IMAGE_OBJ
     
     def run(self, root):
         root.set_capture("Maze [paused]")

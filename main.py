@@ -1,9 +1,10 @@
-from src.game import game
+import src.config
+from src.main_menu import main_menu
 from src.window import root
 
 
 def main():
-    game.run(root)
+    main_menu.run(root)
 
 
 if __name__ == "__main__":
