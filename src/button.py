@@ -146,3 +146,36 @@ class ButtonSetSize(Button):
 
     def unlock(self):
         return ButtonSetSize(self.text, self.pos, self.font, "green", False)
+
+
+class ButtonSetVolume(Button):
+    def __init__(self, text, pos, font, bg,  is_locked=False, focused = False):
+        super().__init__(text, pos, font, bg)
+        self.text = text
+        self.pos = pos
+        self.font = font
+        self.is_locked = is_locked
+        self.focused = focused
+        self.bg=bg
+
+    def focusing(self):
+        return ButtonSetSize(self.text, self.pos, self.font, "orange", False, True)
+
+    def unfocusing(self):
+        return ButtonSetSize(self.text, self.pos, self.font, "green", False)
+
+    def have_focus(self):
+        x, y = pygame.mouse.get_pos()
+        if self.is_locked:
+            return self.lock()
+        elif self.rect.collidepoint(x, y) and not self.focused:
+            return self.focusing()
+        elif not self.rect.collidepoint(x, y):
+            return self.unfocusing()
+        return self
+
+    def lock(self):
+        return ButtonSetVolume(self.text, self.pos, self.font, COLOR_CHOsZEN, True)
+
+    def unlock(self):
+        return ButtonSetVolume(self.text, self.pos, self.font, "green", False)

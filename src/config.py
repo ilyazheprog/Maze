@@ -3,6 +3,7 @@ import pygame
 
 from os import getcwd
 from os.path import exists, abspath
+from json import loads, dumps
 
 PATH = abspath("cell.py")
 PATH = PATH[:PATH.rfind("\\")]
@@ -29,26 +30,30 @@ BORDER = 1
 CELL_W = 2 * R
 CELL_H = 2 * R
 
+VOLUME = None
 
 COUNT_CELL_HORIZONTAL = COUNT_CELL_VERTICAL = None
-if not exists("src/size window"):
-    with open("src/size window", "w") as f:
-        f.write("MIDDLE")
+if not exists("src/config.json"):
+    global_settings = {"window": 2, "volume": 50}
+    with open("src/config.json", "w") as f:
+        f.write(dumps(global_settings, indent=4))
     COUNT_CELL_HORIZONTAL = COUNT_CELL_VERTICAL = MIDDLE
     CHOSEN = "MIDDLE"
+    VOLUME = 1
 else:
-    with open("src/size window") as f:
-        match f.readline():
-            case "SMALL":
+    with open("src/config.json") as f:
+        global_settings = loads(f.read())
+        match int(global_settings["window"]):
+            case 0:
                 COUNT_CELL_HORIZONTAL = COUNT_CELL_VERTICAL = SMALL
                 CHOSEN = "SMALL"
-            case "MIDDLE":
+            case 1:
                 COUNT_CELL_HORIZONTAL = COUNT_CELL_VERTICAL = MIDDLE
                 CHOSEN = "MIDDLE"
-            case "BIGGER":
+            case 2:
                 COUNT_CELL_HORIZONTAL = COUNT_CELL_VERTICAL = BIGGER
                 CHOSEN = "BIGGER"
-
+        VOLUME = global_settings["volume"]
 
 # Window
 W = H = CELL_W*COUNT_CELL_HORIZONTAL+BORDER

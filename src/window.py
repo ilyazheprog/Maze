@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 
 import sys
+from json import dump
 
 from .config import *
 from .player import player
@@ -24,6 +25,8 @@ class Window:
 
     @staticmethod
     def exit():
+        with open("src/config.json", "w") as f:
+            f.write(dumps(global_settings, indent=4))
         pygame.quit()
         sys.exit()
 
