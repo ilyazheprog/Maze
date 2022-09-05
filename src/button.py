@@ -100,13 +100,13 @@ class ButtonSettings(Button):
 
 
 
-pos_continue = W//5, H-H//7-H//10
+pos_continue = W//3-W//20, H-H//5-H//10
 pos_start = W//4 + W//25, H-H//2-H//10
 pos_settings = W//4 + W//50, H-H//10 - 40
 
 
-button_continue_unfocused = ButtonContinue("   Continue    ", pos_continue, font=H // 8, bg="navy")
-button_continue_focus = ButtonContinue("   Continue    ", pos_continue, font=H // 8, bg="orange")
+button_continue_unfocused = ButtonContinue("   Continue    ", pos_continue, font=H // 11, bg="navy")
+button_continue_focus = ButtonContinue("   Continue    ", pos_continue, font=H // 11, bg="orange")
 
 button_start_unfocused = ButtonStart("   Start    ", pos_start, font=H // 8, bg="navy")
 button_start_focus = ButtonStart("   Start    ", pos_start, font=H // 8, bg="orange")
@@ -179,3 +179,26 @@ class ButtonSetVolume(Button):
 
     def unlock(self):
         return ButtonSetVolume(self.text, self.pos, self.font, "green", False)
+
+class ButtonMenu(Button):
+    def __init__(self, text, pos, font, bg, focused = False):
+        super().__init__(text, pos, font, bg)
+        self.text = text
+        self.pos = pos
+        self.font = font
+        self.focused = focused
+        self.bg=bg
+
+    def focusing(self):
+        return ButtonMenu(self.text, self.pos, self.font, "orange", True)
+
+    def unfocusing(self):
+        return ButtonMenu(self.text, self.pos, self.font, "violet", False)
+
+    def have_focus(self):
+        x, y = pygame.mouse.get_pos()
+        if self.rect.collidepoint(x, y) and not self.focused:
+            return self.focusing()
+        elif not self.rect.collidepoint(x, y):
+            return self.unfocusing()
+        return self

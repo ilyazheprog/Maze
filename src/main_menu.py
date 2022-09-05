@@ -16,6 +16,7 @@ class MainMenu:
 
     def run(self, root):
         root.fill(img=self.bg)
+        root.set_capture("Maze [menu]")
         paused = Text("Menu", "Arial", H // 8)
         paused.draw(root.screen, W // 4 + W // 9, H // 10)
 
