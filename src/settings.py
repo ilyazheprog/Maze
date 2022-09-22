@@ -1,9 +1,8 @@
 import pygame
 from pygame.locals import *
-
-from .config import *
 from .text import Text
 from .button import *
+from .sounds import collect
 
 
 class Settings:
@@ -12,36 +11,21 @@ class Settings:
         self.clock = pygame.time.Clock()
         self.bg = BACKGROUND_IMAGE_OBJ
 
-        self.pos_small = 10, H // 24 + H // 11 + H // 18
-
-        self.button_small = ButtonSetSize("   Small    ", self.pos_small, font=H // 15, bg="green")
-        self.pos_middle = 20 + self.button_small.size[0], H // 24 + H // 11 + H // 18
-        self.button_middle = ButtonSetSize("   Middle    ", self.pos_middle, font=H // 15, bg="green")
-
-        self.pos_bigger = 30 + self.button_small.size[0] + self.button_middle.size[0], H // 24 + H // 11 + H // 18
-        self.button_bigger = ButtonSetSize("   Bigger    ", self.pos_bigger, font=H // 15, bg="green")
-
-        self.pos_minus = 10, H // 4 + H // 11 + H//18
-        self.button_minus = ButtonSetVolume("   -   ", self.pos_minus, font=H // 15, bg="green")
-
-        self.pos_plus = 100+self.button_minus.size[0], H // 4 + H // 11 + H // 18
-        self.button_plus = ButtonSetVolume("   +   ", self.pos_plus, font=H // 15, bg="green")
-
     def run(self, root):
         root.set_capture("Maze [settings]")
         root.fill(img=self.bg)
 
-        if CHOSEN == "SMALL":
-            self.button_small = self.button_small.lock()
-        elif CHOSEN == "MIDDLE":
-            self.button_middle = self.button_middle.lock()
+        if global_settings["window"] == 0:
+            button_small.lock()
+        elif global_settings["window"] == 1:
+            button_middle.lock()
         else:
-            self.button_bigger = self.button_bigger.lock()
+            button_bigger.lock()
 
         if global_settings["volume"] == 100:
-            self.button_plus = self.button_plus.lock()
+            button_plus.lock()
         elif global_settings["volume"] == 0:
-            self.button_minus = self.button_minus.lock()
+            button_minus.lock()
 
         while True:
             root.fill(img=self.bg)
@@ -55,67 +39,88 @@ class Settings:
             volume.draw(root.screen, 10, H // 4 + H // 11)
 
             _volume = Text(str(global_settings["volume"]), "Arial", H // 18, color=pygame.Color("violet"))
-            _volume.draw(root.screen, 25 + self.button_minus.size[0], self.pos_minus[1] + 5)
-
+            __pos_volume = [W//9 + button_minus.size[0], pos_minus[1] + 5]
+            if global_settings["volume"] == 100:
+                __pos_volume[0] = W//12 + button_minus.size[0]
+            elif 10 <= global_settings["volume"]<=99:
+                __pos_volume[0] = W//10 + button_minus.size[0]
+            _volume.draw(root.screen, *__pos_volume)
+                
             Text("Changes will take effect after restarting the game*", "Consolas", H // 29,
-                 color=pygame.Color("black")) \
-            .draw(root.screen, 15, H - H // 19)
-            self.button_small.show(root)
-            self.button_middle.show(root)
-            self.button_bigger.show(root)
+                 color=pygame.Color("black")).draw(root.screen, 15, H - H // 19)
 
-            self.button_minus.show(root)
-            self.button_plus.show(root)
+            # Draw buttons
+            button_small.show(root)
+            button_middle.show(root)
+            button_bigger.show(root)
 
+            button_minus.show(root)
+            button_plus.show(root)
+
+            button_test.show(root)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or pygame.key.get_pressed()[K_q]:
                     root.exit()
 
-                self.button_small=self.button_small.have_focus()
-                self.button_middle=self.button_middle.have_focus()
-                self.button_bigger=self.button_bigger.have_focus()
+                # Change button color on hover
+                button_small.manage_focus()
+                button_middle.manage_focus()
+                button_bigger.manage_focus()
+                button_minus.manage_focus()
+                button_plus.manage_focus()
+                button_test.manage_focus()
 
-                self.button_minus=self.button_minus.have_focus()
-                self.button_plus=self.button_plus.have_focus()
+                # Re-draw buttons
+                button_small.show(root)
+                button_middle.show(root)
+                button_bigger.show(root)
+                button_minus.show(root)
+                button_plus.show(root)
+                button_test.show(root)
 
-
-                if self.button_small.click(event, root):
-                    self.button_small=self.button_small.lock()
-                    self.button_middle=self.button_middle.unlock()
-                    self.button_bigger=self.button_bigger.unlock()
+                # Handling clicks
+                if button_small.click(event):
+                    button_small.lock()
+                    button_middle.unlock()
+                    button_bigger.unlock()
                     global_settings["window"] = 0
-
-                elif self.button_middle.click(event, root):
-                    self.button_small = self.button_small.unlock()
-                    self.button_middle = self.button_middle.lock()
-                    self.button_bigger = self.button_bigger.unlock()
+                elif button_middle.click(event):
+                    button_small.unlock()
+                    button_middle.lock()
+                    button_bigger.unlock()
                     global_settings["window"] = 1
-
-                elif self.button_bigger.click(event, root):
-                    self.button_small = self.button_small.unlock()
-                    self.button_middle = self.button_middle.unlock()
-                    self.button_bigger = self.button_bigger.lock()
+                elif button_bigger.click(event):
+                    button_small.unlock()
+                    button_middle.unlock()
+                    button_bigger.lock()
                     global_settings["window"] = 2
 
-                elif (self.button_minus.click(event, root) or pygame.key.get_pressed()[K_DOWN]) and not self.button_minus.is_locked:
+                elif (button_minus.click(event) or pygame.key.get_pressed()[K_DOWN]) and not button_minus.is_locked:
                     global_settings["volume"] -= 1
-                    if self.button_plus.is_locked:
-                        self.button_plus=self.button_plus.unlock()
-                    _volume = Text(str(global_settings["volume"]), "Arial", H // 18, color=pygame.Color("violet"))
-                    _volume.draw(root.screen, 25 + self.button_minus.size[0], self.pos_minus[1] + 5)
-                    if global_settings["volume"] == 0:
-                        self.button_minus = self.button_minus.lock()
+                    if button_plus.is_locked:
+                        button_plus.unlock()
 
-                elif (self.button_plus.click(event, root)  or pygame.key.get_pressed()[K_UP]) and not self.button_plus.is_locked:
+                elif (button_plus.click(event) or pygame.key.get_pressed()[K_UP]) and not button_plus.is_locked:
                     global_settings["volume"] += 1
-                    if self.button_minus.is_locked:
-                        self.button_minus = self.button_minus.unlock()
-                    _volume = Text(str(global_settings["volume"]), "Arial", H // 18, color=pygame.Color("violet"))
-                    _volume.draw(root.screen, 25 + self.button_minus.size[0], self.pos_minus[1] + 5)
-                    if global_settings["volume"] == 100:
-                        self.button_plus = self.button_plus.lock()
+                    if button_minus.is_locked:
+                        button_minus.unlock()
 
+                elif button_test.click(event):
+                    collect.set_volume(global_settings["volume"]/100)
+                    collect.play()
+
+                __pos_volume = [W // 9 + button_minus.size[0], pos_minus[1] + 5]
+                if global_settings["volume"] == 100:
+                    __pos_volume[0] = W // 12 + button_minus.size[0]
+                elif 10 <= global_settings["volume"] <= 99:
+                    __pos_volume[0] = W // 10 + button_minus.size[0]
+                _volume.draw(root.screen, *__pos_volume)
+
+                if global_settings["volume"] == 0:
+                    button_minus.lock()
+                elif global_settings["volume"] == 100:
+                    button_plus.lock()
             pygame.display.update()
             self.clock.tick(24)
 

@@ -3,7 +3,7 @@ from src.config import WHITE, FPS, W, H, GREEN
 
 from src.player import player
 from src.maze import maze
-from src.button import button_continue_unfocused
+from src.button import button_continue
 from src.text import Text
 
 

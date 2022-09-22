@@ -1,24 +1,52 @@
-import pygame
-
 from .config import *
+
 pygame.font.init()
 
 font = pygame.font.SysFont("Arial", 20)
 
 
 class Button:
-    """Create a button, then blit the surface in the while loop"""
-
-    def __init__(self, text,  pos, font, bg="black"):
+    def __init__(self, text: str, pos: tuple[int, ...], font_size: int, bg_out_of_focus: str = "black",
+                 bg_focus: str = "orange", is_focus: bool = False, is_locked: bool = False):
+        self.is_focus = is_focus
+        self.bg_out_of_focus = bg_out_of_focus
+        self.bg_focus = bg_focus
         self.x, self.y = pos
         self.text = text
-        self.font = pygame.font.SysFont("Arial", font)
+        self.font = pygame.font.SysFont("Arial", font_size)
 
-        self.text = self.font.render(text, 1, pygame.Color("White"))
+        self.text = self.font.render(text, True, pygame.Color("White"))
 
         self.size = self.text.get_size()
-        self.bg = bg
-        self.change_text(text, bg)
+        self.bg = bg_out_of_focus
+        self.is_locked = is_locked
+        self.change_text(text, bg_out_of_focus)
+
+    def focusing(self):
+        self.change_text(self.text, self.bg_focus)
+        self.is_focus = True
+
+    def out_of_focusing(self):
+        self.change_text(self.text, self.bg_out_of_focus)
+        self.is_focus = False
+
+    def lock(self):
+        self.is_locked = True
+        self.change_text(self.text, COLOR_CHOSEN_AND_BLOCKED)
+
+    def unlock(self):
+        self.is_locked = False
+        self.change_text(self.text, self.bg_out_of_focus)
+
+    def manage_focus(self):
+        x, y = pygame.mouse.get_pos()
+        if self.is_locked:
+            return self.lock()
+        elif self.rect.collidepoint(x, y) and not self.is_focus:
+            return self.focusing()
+        elif not self.rect.collidepoint(x, y):
+            return self.out_of_focusing()
+        return self
 
     def change_text(self, text, bg="black"):
         """Change the text whe you click"""
@@ -30,7 +58,7 @@ class Button:
     def show(self, root):
         root.screen.blit(self.surface, (self.x, self.y))
 
-    def click(self, event, root):
+    def click(self, event):
         x, y = pygame.mouse.get_pos()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -39,166 +67,34 @@ class Button:
                     return True
 
 
-class ButtonContinue(Button):
-    def __init__(self, text, pos, font, bg):
-        super().__init__(text, pos, font, bg)
-        self.focused = False
+pos_continue = W // 3 - W // 20, H - H // 5 - H // 10
+pos_start = W // 4 + W // 25, H - H // 2 - H // 10
+pos_settings = W // 4 + W // 50, H - H // 10 - 40
+pos_menu = W // 3 + 40, H - H // 15 - 40
 
-    def click(self, event, root):
-        x, y = pygame.mouse.get_pos()
-        if self.rect.collidepoint(x, y) and not self.focused:
-            button_continue_focus.show(root)
-            self.focused = True
-        elif not self.rect.collidepoint(x, y) and self.focused:
-            button_continue_unfocused.show(root)
-            self.focused = False
+button_menu = Button("To menu", pos_menu, H // 15, bg_out_of_focus="violet")
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if pygame.mouse.get_pressed()[0]:
-                if self.rect.collidepoint(x, y):
-                    return True
+button_continue = Button("   Continue    ", pos_continue, font_size=H // 11, bg_out_of_focus="navy")
 
+button_start = Button("   Start    ", pos_start, font_size=H // 8, bg_out_of_focus="navy")
 
-class ButtonStart(Button):
-    def __init__(self, text, pos, font, bg):
-        super().__init__(text, pos, font, bg)
-        self.focused = False
+button_settings = Button("   Settings    ", pos_settings, font_size=H // 10, bg_out_of_focus="green")
 
-    def click(self, event, root):
-        x, y = pygame.mouse.get_pos()
-        if self.rect.collidepoint(x, y) and not self.focused:
-            button_start_focus.show(root)
-            self.focused = True
-        elif not self.rect.collidepoint(x, y) and self.focused:
-            button_start_unfocused.show(root)
-            self.focused = False
+pos_small = 10, H // 24 + H // 11 + H // 18
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if pygame.mouse.get_pressed()[0]:
-                if self.rect.collidepoint(x, y):
-                    return True
+button_small = Button("   Small    ", pos_small, font_size=H // 15, bg_out_of_focus="green")
+pos_middle = 20 + button_small.size[0], H // 24 + H // 11 + H // 18
+button_middle = Button("   Middle    ", pos_middle, font_size=H // 15, bg_out_of_focus="green")
 
+pos_bigger = 30 + button_small.size[0] + button_middle.size[0], H // 24 + H // 11 + H // 18
+button_bigger = Button("   Bigger    ", pos_bigger, font_size=H // 15, bg_out_of_focus="green")
 
-class ButtonSettings(Button):
-    def __init__(self, text, pos, font, bg):
-        super().__init__(text, pos, font, bg)
-        self.focused = False
+pos_minus = 10, H // 4 + H // 11 + H // 18
+button_minus = Button("   -   ", pos_minus, font_size=H // 15, bg_out_of_focus="green")
 
-    def click(self, event, root):
-        x, y = pygame.mouse.get_pos()
-        if self.rect.collidepoint(x, y) and not self.focused:
-            button_settings_focus.show(root)
-            self.focused = True
-        elif not self.rect.collidepoint(x, y) and self.focused:
-            button_settings_unfocused.show(root)
-            self.focused = False
+pos_plus = 5 + 3 * button_minus.size[0], H // 4 + H // 11 + H // 18
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if pygame.mouse.get_pressed()[0]:
-                if self.rect.collidepoint(x, y):
-                    return True
+button_plus = Button("   +   ", pos_plus, font_size=H // 15, bg_out_of_focus="green")
 
-
-
-pos_continue = W//3-W//20, H-H//5-H//10
-pos_start = W//4 + W//25, H-H//2-H//10
-pos_settings = W//4 + W//50, H-H//10 - 40
-
-
-button_continue_unfocused = ButtonContinue("   Continue    ", pos_continue, font=H // 11, bg="navy")
-button_continue_focus = ButtonContinue("   Continue    ", pos_continue, font=H // 11, bg="orange")
-
-button_start_unfocused = ButtonStart("   Start    ", pos_start, font=H // 8, bg="navy")
-button_start_focus = ButtonStart("   Start    ", pos_start, font=H // 8, bg="orange")
-
-button_settings_unfocused = ButtonSettings("   Settings    ", pos_settings, font=H // 10, bg="green")
-button_settings_focus = ButtonSettings("   Settings    ", pos_settings, font=H // 10, bg="orange")
-
-
-class ButtonSetSize(Button):
-    def __init__(self, text, pos, font, bg,  is_locked=False, focused = False):
-        super().__init__(text, pos, font, bg)
-        self.text = text
-        self.pos = pos
-        self.font = font
-        self.is_locked = is_locked
-        self.focused = focused
-        self.bg=bg
-
-    def focusing(self):
-        return ButtonSetSize(self.text, self.pos, self.font, "orange", False, True)
-
-    def unfocusing(self):
-        return ButtonSetSize(self.text, self.pos, self.font, "green", False)
-
-    def have_focus(self):
-        x, y = pygame.mouse.get_pos()
-        if self.is_locked:
-            return self.lock()
-        elif self.rect.collidepoint(x, y) and not self.focused:
-            return self.focusing()
-        elif not self.rect.collidepoint(x, y):
-            return self.unfocusing()
-        return self
-
-    def lock(self):
-        return ButtonSetSize(self.text, self.pos, self.font, COLOR_CHOsZEN, True)
-
-    def unlock(self):
-        return ButtonSetSize(self.text, self.pos, self.font, "green", False)
-
-
-class ButtonSetVolume(Button):
-    def __init__(self, text, pos, font, bg,  is_locked=False, focused = False):
-        super().__init__(text, pos, font, bg)
-        self.text = text
-        self.pos = pos
-        self.font = font
-        self.is_locked = is_locked
-        self.focused = focused
-        self.bg=bg
-
-    def focusing(self):
-        return ButtonSetSize(self.text, self.pos, self.font, "orange", False, True)
-
-    def unfocusing(self):
-        return ButtonSetSize(self.text, self.pos, self.font, "green", False)
-
-    def have_focus(self):
-        x, y = pygame.mouse.get_pos()
-        if self.is_locked:
-            return self.lock()
-        elif self.rect.collidepoint(x, y) and not self.focused:
-            return self.focusing()
-        elif not self.rect.collidepoint(x, y):
-            return self.unfocusing()
-        return self
-
-    def lock(self):
-        return ButtonSetVolume(self.text, self.pos, self.font, COLOR_CHOsZEN, True)
-
-    def unlock(self):
-        return ButtonSetVolume(self.text, self.pos, self.font, "green", False)
-
-class ButtonMenu(Button):
-    def __init__(self, text, pos, font, bg, focused = False):
-        super().__init__(text, pos, font, bg)
-        self.text = text
-        self.pos = pos
-        self.font = font
-        self.focused = focused
-        self.bg=bg
-
-    def focusing(self):
-        return ButtonMenu(self.text, self.pos, self.font, "orange", True)
-
-    def unfocusing(self):
-        return ButtonMenu(self.text, self.pos, self.font, "violet", False)
-
-    def have_focus(self):
-        x, y = pygame.mouse.get_pos()
-        if self.rect.collidepoint(x, y) and not self.focused:
-            return self.focusing()
-        elif not self.rect.collidepoint(x, y):
-            return self.unfocusing()
-        return self
+pos_test = W // 15, pos_minus[1] + H // 10
+button_test = Button("      Test sound     ", pos_test, font_size=H // 20, bg_out_of_focus="magenta")
