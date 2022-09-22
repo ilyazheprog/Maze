@@ -15,12 +15,12 @@ class Floor:
             self.__floor[i] = cell
             if i < COUNT_CELL_HORIZONTAL:
                 self.__floor[i].is_up_border = True
-            elif i + COUNT_CELL_HORIZONTAL + 1 > COUNT_CELL_HORIZONTAL*(COUNT_CELL_HORIZONTAL-1):
+            elif i + COUNT_CELL_HORIZONTAL >= COUNT_CELL_HORIZONTAL**2+1:
                 self.__floor[i].is_bottom_border = True
 
             if i % COUNT_CELL_HORIZONTAL == 0:
                 self.__floor[i].is_left_border = True
-            elif (i + 2) % COUNT_CELL_HORIZONTAL == 0:
+            elif (i + 1) % COUNT_CELL_HORIZONTAL == 0:
                 self.__floor[i].is_right_border = True
 
     def draw(self, surface):

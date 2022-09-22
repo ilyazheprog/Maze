@@ -18,7 +18,7 @@ class Player:
 
     def draw(self, surface):
         x, y = fl[self.cell].pos
-        # pygame.draw.rect(root.screen, BLUE, self.collider())
+        # pygame.draw.rect(root.__screen, BLUE, self.collider())
         pygame.draw.circle(surface, self.color, (x + self.r, y + self.r), self.r)
 
     def move(self):
@@ -39,7 +39,7 @@ class Player:
             else:
                 crashing.play()
         elif pygame.key.get_pressed()[K_DOWN]:
-            if not fl[self.cell].is_bottom_border and not fl[self.cell + COUNT_CELL_HORIZONTAL].is_wall:
+            if not fl[self.cell].is_bottom_border and self.cell + COUNT_CELL_HORIZONTAL < COUNT_CELL_HORIZONTAL**2 and not fl[self.cell + COUNT_CELL_HORIZONTAL].is_wall:
                 self.cell += COUNT_CELL_HORIZONTAL
             else:
                 crashing.play()

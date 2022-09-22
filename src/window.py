@@ -2,45 +2,64 @@ import pygame
 from pygame.locals import *
 
 import sys
+from json import dump
 
 from .config import *
 from .player import player
 from .text import Text
+from .pause_mode import pause
 
 
 class Window:
-    def __init__(self, size):
-        pygame.init()
-        self.score_visiblle = False
-        self.screen = pygame.display.set_mode(size)
-        self.score = None
+    def __init__(self, size, capture):
+        self.__score_visible = False
+        self.__display = pygame.display
+        self.__screen = self.__display.set_mode(size)
+        self.__capture = capture
+        self.__score = None
+        self.__minimized = False
 
-    def exit(self):
+    @property
+    def screen(self):
+        return self.__screen
+
+    @staticmethod
+    def exit():
+        with open("src/config.json", "w") as f:
+            f.write(dumps(global_settings, indent=4))
         pygame.quit()
         sys.exit()
 
     def update(self):
-        pygame.display.update()
+        self.__display.update()
 
-    def fill(self, color):
-        self.screen.fill(color)
+    def fill(self, color=None, img=None):
+        if color is not None:
+            self.screen.fill(color)
+        else:
+            self.screen.blit(img, (0, 0))
+
+    def set_capture(self, capture):
+        self.__display.set_caption(capture)
 
     def listen(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.exit()
+            elif event.type == pygame.WINDOWMINIMIZED or pygame.key.get_pressed()[K_ESCAPE]:
+                pause.run(root)
 
         if pygame.key.get_pressed()[K_q]:
             self.exit()
 
-        if pygame.key.get_pressed()[K_s] and not self.score_visiblle:
-            self.score_visiblle = True
-        elif pygame.key.get_pressed()[K_s] and self.score_visiblle:
-            self.score_visiblle = False
+        if pygame.key.get_pressed()[K_s] and not self.__score_visible:
+            self.__score_visible = True
+        elif pygame.key.get_pressed()[K_s] and self.__score_visible:
+            self.__score_visible = False
 
-        if self.score_visiblle:
-            self.score = Text(f"Score: {player.score}", "Arial", 40)
-            self.score.draw(self.screen, W//2-50, H//2-50)
+        if self.__score_visible:
+            self.__score = Text(f"Score: {player.score}", "Arial", 40)
+            self.__score.draw(self.__screen, W // 2 - 50, H // 2 - 50)
 
 
-root = Window((W, H))
+root = Window((W, H), "Maze")
