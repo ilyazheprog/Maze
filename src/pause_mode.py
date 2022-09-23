@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 
 from .player import player
-from .text import Text
+from .text import cur_score_in_pause, paused
 from .button import *
 from .config import *
 from .game import game
@@ -17,11 +17,10 @@ class PauseMode:
         root.set_capture("Maze [paused]")
         root.fill(img=self.bg)
 
-        paused = Text("Paused", "Arial", H // 5)
-        paused.draw(root.screen, W // 4, H // 10)
+        paused.draw(root.screen)
 
-        score = Text(f"Current score: {player.score}", "Arial", H // 9, GREEN)
-        score.draw(root.screen, W // 5, H // 3 + 80)
+        cur_score_in_pause.set_text(f"Current score: {player.score}")
+        cur_score_in_pause.draw(root.screen)
 
         # Draw buttons
         button_continue.show(root)

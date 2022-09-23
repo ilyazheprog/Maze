@@ -6,7 +6,7 @@ from json import dump
 
 from .config import *
 from .player import player
-from .text import Text
+from .text import cur_score_in_game
 from .pause_mode import pause
 
 
@@ -58,8 +58,8 @@ class Window:
             self.__score_visible = False
 
         if self.__score_visible:
-            self.__score = Text(f"Score: {player.score}", "Arial", 40)
-            self.__score.draw(self.__screen, W // 2 - 50, H // 2 - 50)
+            cur_score_in_game.set_text(f"Score: {player.score}")
+            cur_score_in_game.draw(self.__screen)
 
 
 root = Window((W, H), "Maze")

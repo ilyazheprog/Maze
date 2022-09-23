@@ -1,3 +1,5 @@
+from time import sleep
+
 from .config import *
 
 pygame.font.init()
@@ -6,12 +8,12 @@ font = pygame.font.SysFont("Arial", 20)
 
 
 class Button:
-    def __init__(self, text: str, pos: tuple[int, ...], font_size: int, bg_out_of_focus: str = "black",
+    def __init__(self, text: str, pos: tuple[int, int], font_size: int, bg_out_of_focus: str = "black",
                  bg_focus: str = "orange", is_focus: bool = False, is_locked: bool = False):
         self.is_focus = is_focus
         self.bg_out_of_focus = bg_out_of_focus
         self.bg_focus = bg_focus
-        self.x, self.y = pos
+        self.__x, self.__y = pos
         self.text = text
         self.font = pygame.font.SysFont("Arial", font_size)
 
@@ -20,23 +22,39 @@ class Button:
         self.size = self.text.get_size()
         self.bg = bg_out_of_focus
         self.is_locked = is_locked
-        self.change_text(text, bg_out_of_focus)
+        self.change_text(bg_out_of_focus)
+
+    @property
+    def x(self):
+        return self.__x
+
+    @property
+    def y(self):
+        return self.__y
+
+    @property
+    def width(self):
+        return self.size[0]
+
+    @property
+    def height(self):
+        return self.size[1]
 
     def focusing(self):
-        self.change_text(self.text, self.bg_focus)
+        self.change_text(self.bg_focus)
         self.is_focus = True
 
     def out_of_focusing(self):
-        self.change_text(self.text, self.bg_out_of_focus)
+        self.change_text(self.bg_out_of_focus)
         self.is_focus = False
 
     def lock(self):
         self.is_locked = True
-        self.change_text(self.text, COLOR_CHOSEN_AND_BLOCKED)
+        self.change_text(COLOR_CHOSEN_AND_BLOCKED)
 
     def unlock(self):
         self.is_locked = False
-        self.change_text(self.text, self.bg_out_of_focus)
+        self.change_text(self.bg_out_of_focus)
 
     def manage_focus(self):
         x, y = pygame.mouse.get_pos()
@@ -48,15 +66,16 @@ class Button:
             return self.out_of_focusing()
         return self
 
-    def change_text(self, text, bg="black"):
+    def change_text(self, bg="black"):
         """Change the text whe you click"""
         self.surface = pygame.Surface(self.size)
         self.surface.fill(bg)
         self.surface.blit(self.text, (0, 0))
-        self.rect = pygame.Rect(self.x, self.y, self.size[0], self.size[1])
+        self.rect = pygame.Rect(self.__x, self.__y, self.size[0], self.size[1])
+
 
     def show(self, root):
-        root.screen.blit(self.surface, (self.x, self.y))
+        root.screen.blit(self.surface, (self.__x, self.__y))
 
     def click(self, event):
         x, y = pygame.mouse.get_pos()
@@ -65,6 +84,7 @@ class Button:
             if pygame.mouse.get_pressed()[0]:
                 if self.rect.collidepoint(x, y):
                     return True
+
 
 
 pos_continue = W // 3 - W // 20, H - H // 5 - H // 10
@@ -83,16 +103,16 @@ button_settings = Button("   Settings    ", pos_settings, font_size=H // 10, bg_
 pos_small = 10, H // 24 + H // 11 + H // 18
 
 button_small = Button("   Small    ", pos_small, font_size=H // 15, bg_out_of_focus="green")
-pos_middle = 20 + button_small.size[0], H // 24 + H // 11 + H // 18
+pos_middle = 20 + button_small.x + button_small.width, button_small.y
 button_middle = Button("   Middle    ", pos_middle, font_size=H // 15, bg_out_of_focus="green")
 
-pos_bigger = 30 + button_small.size[0] + button_middle.size[0], H // 24 + H // 11 + H // 18
+pos_bigger = 20 + button_middle.x + button_middle.width, button_middle.y
 button_bigger = Button("   Bigger    ", pos_bigger, font_size=H // 15, bg_out_of_focus="green")
 
 pos_minus = 10, H // 4 + H // 11 + H // 18
 button_minus = Button("   -   ", pos_minus, font_size=H // 15, bg_out_of_focus="green")
 
-pos_plus = 5 + 3 * button_minus.size[0], H // 4 + H // 11 + H // 18
+pos_plus = 5 + 3 * button_minus.width, H // 4 + H // 11 + H // 18
 
 button_plus = Button("   +   ", pos_plus, font_size=H // 15, bg_out_of_focus="green")
 
