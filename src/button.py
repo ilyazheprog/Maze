@@ -106,13 +106,13 @@ menu_button_group = Group()
 menu_button_group.add(button_start, button_settings)
 
 pos_small = 10, H // 24 + H // 11 + H // 18 + 5
-button_small = Button("   Small    ", "sm", pos_small, font_size=H // 15, bg_out_of_focus="green")
+button_small = Button("   Small   ", "sm", pos_small, font_size=H // 15, bg_out_of_focus="green")
 
 pos_middle = 20 + button_small.x + button_small.width, button_small.y
-button_middle = Button("   Middle    ", "mid", pos_middle, font_size=H // 15, bg_out_of_focus="green")
+button_middle = Button("   Middle   ", "mid", pos_middle, font_size=H // 15, bg_out_of_focus="green")
 
 pos_bigger = 20 + button_middle.x + button_middle.width, button_middle.y
-button_bigger = Button("   Bigger    ", "big", pos_bigger, font_size=H // 15, bg_out_of_focus="green")
+button_bigger = Button("   Bigger   ", "big", pos_bigger, font_size=H // 15, bg_out_of_focus="green")
 
 window_mods = Group()
 window_mods.add(button_small, button_middle, button_bigger)
