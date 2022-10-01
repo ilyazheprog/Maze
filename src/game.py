@@ -19,7 +19,7 @@ class Game:
             root.fill(WHITE)
             maze.build(root.screen)
 
-            player.draw(root.screen)
+            player.show(root.screen)
 
             player.move()
 

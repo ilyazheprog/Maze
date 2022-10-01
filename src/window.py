@@ -59,7 +59,7 @@ class Window:
 
         if self.__score_visible:
             cur_score_in_game.set_text(f"Score: {player.score}")
-            cur_score_in_game.draw(self.__screen)
+            cur_score_in_game.show(self.__screen)
 
 
 root = Window((W, H), "Maze")

@@ -17,10 +17,10 @@ class PauseMode:
         root.set_capture("Maze [paused]")
         root.fill(img=self.bg)
 
-        paused.draw(root.screen)
+        paused.show(root.screen)
 
         cur_score_in_pause.set_text(f"Current score: {player.score}")
-        cur_score_in_pause.draw(root.screen)
+        cur_score_in_pause.show(root.screen)
 
         # Draw buttons
         button_continue.show(root)
@@ -31,7 +31,7 @@ class PauseMode:
             button_menu.manage_focus()
             button_continue.manage_focus()
 
-            # Re-draw buttons
+            # Re-show buttons
             button_menu.show(root)
             button_continue.show(root)
 

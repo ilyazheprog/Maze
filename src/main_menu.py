@@ -3,7 +3,7 @@ from pygame.locals import *
 
 from .text import Text
 from .config import *
-from .button import button_start, button_settings
+from .button import menu_button_group
 from .game import game
 from .settings import settings
 
@@ -18,32 +18,30 @@ class MainMenu:
         root.fill(img=self.bg)
         root.set_capture("Maze [menu]")
         paused = Text("Menu", "Arial", H // 8, (W // 4 + W // 9, H // 10))
-        paused.draw(root.screen)
+        paused.show(root.screen)
 
         # Draw buttons
-        button_start.show(root)
-        button_settings.show(root)
+        menu_button_group.draw(root)
+
         while True:
             # Change button color on hover
-            button_start.manage_focus()
-            button_settings.manage_focus()
+            menu_button_group.manage_focus()
 
-            # Re-draw buttons
-            button_start.show(root)
-            button_settings.show(root)
+            # Re-show buttons
+            menu_button_group.draw(root)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or pygame.key.get_pressed()[K_q]:
                     root.exit()
 
                 # Handling clicks
-                elif button_start.click(event) or pygame.key.get_pressed()[K_ESCAPE]:
+                elif menu_button_group["start"].click(event) or pygame.key.get_pressed()[K_ESCAPE]:
                     game.run(root)
-                elif button_settings.click(event):
+                elif menu_button_group["settings"].click(event):
                     settings.run(root)
 
             pygame.display.update()
-            self.clock.tick(15)
+            self.clock.tick(60)
 
 
 main_menu = MainMenu()

@@ -41,7 +41,7 @@ class Text:
     def height(self):
         return self.__height
 
-    def draw(self, surface):
+    def show(self, surface):
         surface.blit(self.__text2, (self.__x, self.__y))
 
 

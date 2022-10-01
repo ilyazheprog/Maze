@@ -16,7 +16,7 @@ class Player:
         self.cell = cell
         self.score = 0
 
-    def draw(self, surface):
+    def show(self, surface):
         x, y = fl[self.cell].pos
         pygame.draw.circle(surface, self.color, (x + self.r, y + self.r), self.r)
 

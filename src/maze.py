@@ -48,7 +48,7 @@ class Maze:
         return _exps
 
     def build(self, surface):
-        fl.draw(surface)
+        fl.show(surface)
 
         for w in self.__walls:
             if w is not None:
