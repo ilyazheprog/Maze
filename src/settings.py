@@ -2,8 +2,9 @@ import pygame
 from pygame.locals import *
 
 from .text import *
-from .button import window_mods, volume_button_group
 from .sounds import collect
+from .button import window_mods, volume_button_group
+
 from .skins import skins
 
 
@@ -25,9 +26,9 @@ class Settings:
             window_mods.lock("big")
 
         if global_settings["volume"] == 100:
-            volume_button_group.lock("plus")
+            volume_button_group.invis("plus")
         elif global_settings["volume"] == 0:
-            volume_button_group.lock("minus")
+            volume_button_group.invis("minus")
 
         while True:
             root.fill(img=self.bg)
@@ -36,15 +37,15 @@ class Settings:
             size.show(root.screen)
             volume.show(root.screen)
 
-            __pos_volume = [W//9 + button_minus.size[0], pos_minus[1] + 5]
+            __pos_volume = [W // 9 + button_minus.size[0], pos_minus[1] + 5]
             if global_settings["volume"] == 100:
-                __pos_volume[0] = W//12 + button_minus.size[0]
-            elif 10 <= global_settings["volume"]<=99:
-                __pos_volume[0] = W//10 + button_minus.size[0]
+                __pos_volume[0] = W // 12 + button_minus.size[0]
+            elif 10 <= global_settings["volume"] <= 99:
+                __pos_volume[0] = W // 10 + button_minus.size[0]
 
             volume_numm.pos = __pos_volume
             volume_numm.show(root.screen)
-                
+
             Text("Changes will take effect after restarting the game*", "Consolas", H // 29, (15, H - H // 19),
                  color=pygame.Color("black")).show(root.screen)
 
@@ -81,19 +82,23 @@ class Settings:
                     window_mods.lock("big")
                     global_settings["window"] = 2
 
-                elif (volume_button_group["minus"].click(event) or pygame.key.get_pressed()[K_DOWN]) and not button_minus.is_locked:
+                elif (volume_button_group["minus"].click(event) or pygame.key.get_pressed()[K_DOWN]) and \
+                        volume_button_group["minus"].is_visible:
                     global_settings["volume"] -= 1
-                    if button_plus.is_locked:
-                        volume_button_group.unlock_one("plus")
+                    click.set_volume(global_settings["volume"] / 100)
+                    if global_settings["volume"] == 0:
+                        volume_button_group.invis("minus")
+                    elif global_settings["volume"] == 99:
+                        volume_button_group.vis("plus")
 
-                elif (button_plus.click(event) or pygame.key.get_pressed()[K_UP]) and not button_plus.is_locked:
+                elif (volume_button_group["plus"].click(event) or pygame.key.get_pressed()[K_UP]) and \
+                        volume_button_group["plus"].is_visible:
                     global_settings["volume"] += 1
-                    if button_minus.is_locked:
-                        volume_button_group.unlock_one("minus")
-
-                elif button_test.click(event):
-                    collect.set_volume(global_settings["volume"]/100)
-                    collect.play()
+                    click.set_volume(global_settings["volume"] / 100)
+                    if global_settings["volume"] == 100:
+                        volume_button_group.invis("plus")
+                    elif global_settings["volume"] == 1:
+                        volume_button_group.vis("minus")
 
                 __pos_volume = [W // 9 + button_minus.size[0], pos_minus[1] + 5]
                 if global_settings["volume"] == 100:
@@ -105,10 +110,6 @@ class Settings:
                 volume_numm.pos = __pos_volume
                 volume_numm.show(root.screen)
 
-                if global_settings["volume"] == 0:
-                    button_minus.lock()
-                elif global_settings["volume"] == 100:
-                    button_plus.lock()
             pygame.display.update()
             self.clock.tick(24)
 

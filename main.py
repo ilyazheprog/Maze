@@ -1,4 +1,3 @@
-import src.config
 from src.main_menu import main_menu
 from src.window import root
 

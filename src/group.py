@@ -1,3 +1,4 @@
+
 import pygame
 
 
@@ -9,13 +10,26 @@ class Group:
         for e in args:
             self.__group.append(e)
 
+    def vis(self, *args):
+        for e in args:
+            b=self.__getitem__(e)
+            if e.type == "btn":
+                b.vis()
+    def invis(self, *args):
+        for e in args:
+            b=self.__getitem__(e)
+            if e.type == "btn":
+                b.invis()
+
     def draw(self, root):
         for e in self.__group:
-            e.show(root)
+            if e.type == "skin" or e.is_visible:
+                e.show(root)
 
     def manage_focus(self):
         for e in self.__group:
-            e.manage_focus()
+            if e.type == "skin" or e.is_visible:
+                e.manage_focus()
 
     def lock(self, item) -> None:
         for e in self.__group:

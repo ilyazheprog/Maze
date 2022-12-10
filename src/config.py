@@ -1,16 +1,9 @@
+from .config_color import ORANGE
 import pygame
 
 from os.path import exists
 from json import loads, dumps
 
-# Colors
-WHITE = 255, 255, 255
-BLUE = 0, 70, 225
-YELLOW = 230, 255, 80
-GREEN = 0, 255, 0
-EXP = 122, 43, 237
-ORANGE = 219, 124, 0
-COLOR_CHOSEN_AND_BLOCKED = "gray"
 
 # Player
 COLOR_FOR_PLAYER = ORANGE
@@ -47,7 +40,6 @@ else:
 
 # Window
 W = H = CELL_W*COUNT_CELL_HORIZONTAL+BORDER
-
 
 # Other
 FPS = 20

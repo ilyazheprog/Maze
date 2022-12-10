@@ -3,6 +3,7 @@ from random import randint
 
 
 from .floor import fl
+from .config_color import EXP
 from .config import *
 
 

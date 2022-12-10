@@ -1,10 +1,9 @@
 import pygame
-from src.config import WHITE, FPS, W, H, GREEN
 
+from src.config_color import WHITE, GREEN
+from src.config import FPS, W, H
 from src.player import player
 from src.maze import maze
-from src.button import button_continue
-from src.text import Text
 
 
 class Game:

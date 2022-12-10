@@ -1,12 +1,13 @@
 import pygame
 
-from .config import COLOR_CHOSEN_AND_BLOCKED
+from .config_color import COLOR_CHOSEN_AND_BLOCKED
 from .group import Group
 
 
 class Skin:
     def __init__(self, pos: tuple[int, int], name: str, color: str = "black", border_color: str = "red",
                  is_chosen: bool = False):
+        self.__type = "skin"
         self.name = name
         self.__border_color = border_color
         self.__x, self.__y = pos
@@ -15,6 +16,9 @@ class Skin:
         self.__R = 50
         self.__collider = pygame.Rect(self.__x, self.__y, 2 * self.__R, 2 * self.__R)
 
+    @property
+    def type(self):
+        return self.__type
 
     def show(self, root):
         pygame.draw.circle(root.screen, self.__color, (self.__x + self.__R, self.__y + self.__R), self.__R)
