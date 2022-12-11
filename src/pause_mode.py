@@ -17,23 +17,23 @@ class PauseMode:
         root.set_capture("Maze [paused]")
         root.fill(img=self.bg)
 
-        paused.show(root.screen)
+        paused.draw(root.screen)
 
         cur_score_in_pause.set_text(f"Current score: {player.score}")
-        cur_score_in_pause.show(root.screen)
+        cur_score_in_pause.draw(root.screen)
 
         # Draw buttons
-        button_continue.show(root)
-        button_menu.show(root)
+        button_continue.draw(root)
+        button_menu.draw(root)
 
         while True:
             # Change button color on hover
             button_menu.manage_focus()
             button_continue.manage_focus()
 
-            # Re-show buttons
-            button_menu.show(root)
-            button_continue.show(root)
+            # Re-draw buttons
+            button_menu.draw(root)
+            button_continue.draw(root)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or pygame.key.get_pressed()[K_q]:

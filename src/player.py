@@ -16,7 +16,11 @@ class Player:
         self.cell = cell
         self.score = 0
 
-    def show(self, surface):
+
+    def edit_color(self, new_color):
+        self.color = new_color
+
+    def draw(self, surface):
         x, y = fl[self.cell].pos
         pygame.draw.circle(surface, self.color, (x + self.r, y + self.r), self.r)
 
@@ -50,4 +54,4 @@ class Player:
 
 
 
-player = Player(COLOR_FOR_PLAYER, R, 0)
+player = Player(global_settings["skin"], R, 0)

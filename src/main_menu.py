@@ -18,7 +18,7 @@ class MainMenu:
         root.fill(img=self.bg)
         root.set_capture("Maze [menu]")
         paused = Text("Menu", "Arial", H // 8, (W // 4 + W // 9, H // 10))
-        paused.show(root.screen)
+        paused.draw(root.screen)
 
         # Draw buttons
         menu_button_group.draw(root)
@@ -27,7 +27,7 @@ class MainMenu:
             # Change button color on hover
             menu_button_group.manage_focus()
 
-            # Re-show buttons
+            # Re-draw buttons
             menu_button_group.draw(root)
 
             for event in pygame.event.get():

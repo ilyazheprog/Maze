@@ -1,6 +1,6 @@
 import pygame
 
-from .config_color import COLOR_CHOSEN_AND_BLOCKED
+from .config_color import *
 from .group import Group
 
 
@@ -20,7 +20,7 @@ class Skin:
     def type(self):
         return self.__type
 
-    def show(self, root):
+    def draw(self, root):
         pygame.draw.circle(root.screen, self.__color, (self.__x + self.__R, self.__y + self.__R), self.__R)
         if self.__is_chosen:
             pygame.draw.circle(root.screen, self.__border_color, (self.__x + self.__R, self.__y + self.__R), self.__R, width=5)
@@ -40,8 +40,8 @@ class Skin:
         self.__is_chosen = False
 
 
-skin_yellow = Skin((300, 400), "yellow", color="yellow")
-skin_green = Skin((200, 400), "green", color="green")
+skin_yellow = Skin((300, 400), "yellow", color=YELLOW)
+skin_green = Skin((200, 400), "green", color=GREEN)
 
 skins = Group()
 skins.add(skin_yellow, skin_green)

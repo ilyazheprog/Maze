@@ -94,7 +94,7 @@ class Button:
         self.surface.blit(self.text, (0, 0))
         self.rect = pygame.Rect(self.__x, self.__y, self.size[0], self.size[1])
 
-    def show(self, root):
+    def draw(self, root):
         root.screen.blit(self.surface, (self.__x, self.__y))
 
     def click(self, event):
@@ -146,6 +146,9 @@ button_minus = Button("   -   ", "minus", pos_minus, font_size=H // 15, bg_out_o
 pos_plus = 5 + 3 * button_minus.width, pos_minus[1]
 button_plus = Button("   +   ", "plus", pos_plus, font_size=H // 15, bg_out_of_focus="green")
 
+
+pos_restart = pos_minus[0], H- H//5
+button_restart = Button("restart", "restart", pos_restart, font_size=H // 15, bg_out_of_focus="violet")
 
 volume_button_group = Group()
 volume_button_group.add(button_minus, button_plus)

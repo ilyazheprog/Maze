@@ -2,7 +2,6 @@ import pygame
 from pygame.locals import *
 
 import sys
-from json import dump
 
 from .config import *
 from .player import player
@@ -25,8 +24,7 @@ class Window:
 
     @staticmethod
     def exit():
-        with open("src/config.json", "w") as f:
-            f.write(dumps(global_settings, indent=4))
+        rewrite(global_settings)
         pygame.quit()
         sys.exit()
 
@@ -59,7 +57,7 @@ class Window:
 
         if self.__score_visible:
             cur_score_in_game.set_text(f"Score: {player.score}")
-            cur_score_in_game.show(self.__screen)
+            cur_score_in_game.draw(self.__screen)
 
 
 root = Window((W, H), "Maze")

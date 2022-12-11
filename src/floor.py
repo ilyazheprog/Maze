@@ -23,7 +23,7 @@ class Floor:
             elif (i + 1) % COUNT_CELL_HORIZONTAL == 0:
                 self.__floor[i].is_right_border = True
 
-    def show(self, surface):
+    def draw(self, surface):
         for c in self.__floor:
             c.draw(surface)
 
