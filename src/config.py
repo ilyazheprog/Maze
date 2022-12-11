@@ -1,13 +1,18 @@
-from .config_color import ORANGE
+from .config_color import *
 import pygame
 
 from os.path import exists
 from json import loads, dumps
 
 
+def rewrite(gs):
+    with open("src/config.json", "w") as f:
+        f.write(dumps(gs, indent=4))
+
+
 # Player
-COLOR_FOR_PLAYER = ORANGE
 R = 17
+
 
 # Sizes
 SMALL = 10
@@ -23,9 +28,8 @@ CELL_H = 2 * R
 COUNT_CELL_HORIZONTAL = COUNT_CELL_VERTICAL = None
 
 if not exists("src/config.json"):
-    global_settings = {"window": 2, "volume": 50}
-    with open("src/config.json", "w") as f:
-        f.write(dumps(global_settings, indent=4))
+    global_settings = {"window": 2, "volume": 50, "skin": GREEN, "reload": False}
+    rewrite(global_settings)
     COUNT_CELL_HORIZONTAL = COUNT_CELL_VERTICAL = MIDDLE
 else:
     with open("src/config.json") as f:
