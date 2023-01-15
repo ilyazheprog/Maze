@@ -6,7 +6,7 @@ from .config import rewrite
 from .player import player
 from .text import *
 from .sounds import collect
-from .button import window_mods, volume_button_group, button_restart
+from .buttons import window_mods, volume_button_group, button_restart
 
 from .skins import skins
 

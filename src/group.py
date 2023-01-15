@@ -23,12 +23,12 @@ class Group:
 
     def draw(self, root):
         for e in self.__group:
-            if e.type == "skin" or e.is_visible:
+            if e.type == "skin" or e._is_visible:
                 e.draw(root)
 
     def manage_focus(self):
         for e in self.__group:
-            if e.type == "skin" or e.is_visible:
+            if e.type == "skin" or e._is_visible:
                 e.manage_focus()
 
     def lock(self, item) -> None:

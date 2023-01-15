@@ -1,9 +1,9 @@
 import pygame
 
-from src.config_color import WHITE, GREEN
-from src.config import FPS, W, H
-from src.player import player
-from src.maze import maze
+from .config_color import WHITE, GREEN
+from .config import FPS, W, H
+from .player import player
+from .maze import maze
 
 
 class Game:

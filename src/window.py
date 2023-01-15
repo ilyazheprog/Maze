@@ -1,35 +1,22 @@
 import pygame
-from pygame.locals import *
 
 import sys
 
-from .config import *
-from .player import player
-from .text import cur_score_in_game
-from .pause_mode import pause
-
-
 class Window:
     def __init__(self, size, capture):
-        self.__score_visible = False
-        self.__display = pygame.display
-        self.__screen = self.__display.set_mode(size)
-        self.__capture = capture
-        self.__score = None
-        self.__minimized = False
+        self._score_visible = False
+        self._display = pygame.display
+        self._screen = self._display.set_mode(size)
+        self._capture = capture
+        self._score = None
+        self._minimized = False
 
     @property
     def screen(self):
-        return self.__screen
-
-    @staticmethod
-    def exit():
-        rewrite(global_settings)
-        pygame.quit()
-        sys.exit()
+        return self._screen
 
     def update(self):
-        self.__display.update()
+        self._display.update()
 
     def fill(self, color=None, img=None):
         if color is not None:
@@ -38,26 +25,15 @@ class Window:
             self.screen.blit(img, (0, 0))
 
     def set_capture(self, capture):
-        self.__display.set_caption(capture)
+        self._display.set_caption(capture)
+
+    @staticmethod
+    def exit():
+        pygame.quit()
+        sys.exit()
 
     def listen(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.exit()
-            elif event.type == pygame.WINDOWMINIMIZED or pygame.key.get_pressed()[K_ESCAPE]:
-                pause.run(root)
 
-        if pygame.key.get_pressed()[K_q]:
-            self.exit()
-
-        if pygame.key.get_pressed()[K_s] and not self.__score_visible:
-            self.__score_visible = True
-        elif pygame.key.get_pressed()[K_s] and self.__score_visible:
-            self.__score_visible = False
-
-        if self.__score_visible:
-            cur_score_in_game.set_text(f"Score: {player.score}")
-            cur_score_in_game.draw(self.__screen)
-
-
-root = Window((W, H), "Maze")

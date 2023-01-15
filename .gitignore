@@ -3,4 +3,4 @@ __pycache__
 venv
 run.bat
 conf2.py
-src/config.json
+game/config.json

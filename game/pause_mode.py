@@ -3,7 +3,7 @@ from pygame.locals import *
 
 from .player import player
 from .text import cur_score_in_pause, paused
-from .button import *
+from .buttons import *
 from .config import *
 from .game import game
 from .main_menu import main_menu

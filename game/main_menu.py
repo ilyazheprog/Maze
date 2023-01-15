@@ -3,7 +3,7 @@ from pygame.locals import *
 
 from .text import Text
 from .config import *
-from .button import menu_button_group
+from .buttons import menu_button_group
 from .game import game
 from .settings import settings
 
