@@ -18,7 +18,7 @@ Run `services/initilization.py`.
 
 Note: for now, initialization is automated only for Windows!
 
-**You must install all dependencies from `req.txt` into the virtual environment yourself!**
+**You must install all dependencies from `requirements.txt` into the virtual environment yourself!**
 
 ## launch
 After initialization, `run.bat` or `run.sh` will appear, depending on the operating system. To open the game you need to run this file.
