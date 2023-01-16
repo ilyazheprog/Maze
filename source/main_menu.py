@@ -1,11 +1,11 @@
 import pygame
 from pygame.locals import *
 
-from .text import Text
-from .config import *
-from .buttons import menu_button_group
-from .game import game
-from .settings import settings
+from game_engine.text import Text
+from config import *
+from buttons import menu_button_group
+from game import game
+from settings import settings
 
 
 class MainMenu:

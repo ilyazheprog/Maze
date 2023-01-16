@@ -1,10 +1,9 @@
 import pygame
 
 from random import randint, seed as se
-from .config import *
-from .wall import Wall
-from .exp import *
-from .floor import fl
+from wall import Wall
+from exp import *
+from floor import fl
 
 
 class Maze:

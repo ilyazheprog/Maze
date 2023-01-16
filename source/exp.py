@@ -2,9 +2,8 @@ import pygame
 from random import randint
 
 
-from .floor import fl
-from .config_color import EXP
-from .config import *
+from floor import fl
+from config import *
 
 
 exp = [None for _ in range(COUNT_CELL_HORIZONTAL**2)]

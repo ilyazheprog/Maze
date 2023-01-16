@@ -3,10 +3,10 @@ from pygame.locals import *
 
 from time import sleep
 
-from .config import *
-from .maze import maze
-from .sounds import *
-from .floor import fl
+from config import *
+from maze import maze
+from sounds import *
+from floor import fl
 
 
 class Player:

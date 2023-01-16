@@ -4,7 +4,7 @@
 We clone the code from the repository with the command: `git clone https://github.com/Ilya484/Maze.git`.
 
 ## Initialization
-In the `conf.py` file, in the `OS` variable, write the name of your operating system, in `PATH` - the absolute path to the project, in `PATH_TO_VENV` - the absolute path to the virtual environment.
+In the `data/conf.py` file, in the `OS` variable, write the name of your operating system, in `PATH` - the absolute path to the project, in `PATH_TO_VENV` - the absolute path to the virtual environment.
 
 For example,
 
@@ -14,7 +14,7 @@ PATH = r"C:\Maze"
 PATH_TO_VENV = r"C:\venv"
 ```
 
-Run `initilization.py`.
+Run `services/initilization.py`.
 
 Note: for now, initialization is automated only for Windows!
 

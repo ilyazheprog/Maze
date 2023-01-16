@@ -1,7 +1,7 @@
-from src.button import Button
-from src.group import Group
-from .config import *
-from .sounds import click
+from game_engine.button import Button
+from game_engine.group import Group
+from config import *
+from sounds import click
 
 class MyBtn(Button):
     def __init__(self, *args, **kwargs):

@@ -1,5 +1,5 @@
-from game.main_menu import main_menu
-from game.window import root
+from main_menu import main_menu
+from window import root
 
 
 def main():

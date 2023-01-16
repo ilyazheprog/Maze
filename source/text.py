@@ -1,6 +1,5 @@
-from src.text import Text
-from .config import *
-from .buttons import *
+from game_engine.text import Text
+from buttons import *
 
 
 settings_ = Text("Settings", "Arial", H // 12, (W // 4 + W // 9, H // 24))

@@ -1,14 +1,10 @@
-import pygame
 from pygame.locals import *
-import decouple
 
-from .config import rewrite
-from .player import player
-from .text import *
-from .sounds import collect
-from .buttons import window_mods, volume_button_group, button_restart
+from player import player
+from text import *
+from buttons import window_mods, volume_button_group, button_restart
 
-from .skins import skins
+from skins import skins
 
 
 class Settings:

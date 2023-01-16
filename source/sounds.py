@@ -1,5 +1,5 @@
-from .config import global_settings
-from src.sound import Sound
+from config import global_settings
+from game_engine.sound import Sound
 
 collect = Sound('resources/sounds/collected.mp3')
 crashing = Sound('resources/sounds/crashing into a wall.mp3')

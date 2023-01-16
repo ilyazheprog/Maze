@@ -1,7 +1,7 @@
 import pygame
 
-from .floor import fl
-from .config import *
+from floor import fl
+from config import CELL_H, CELL_W
 
 
 class Wall:

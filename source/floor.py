@@ -1,7 +1,7 @@
 import pygame
 
-from .config import *
-from .cell import Cell, next_pos
+from config import *
+from cell import Cell, next_pos
 
 
 class Floor:

@@ -1,7 +1,7 @@
 import pygame
 
-from .config_color import *
-from src.group import Group
+from config_color import *
+from game_engine.group import Group
 
 
 class Skin:

@@ -1,4 +1,4 @@
-from .config_color import *
+from config_color import *
 import pygame
 
 from os.path import exists
@@ -6,7 +6,7 @@ from json import loads, dumps
 
 
 def rewrite(gs):
-    with open("src/config.json", "w") as f:
+    with open("data/config.json", "w") as f:
         f.write(dumps(gs, indent=4))
 
 
@@ -27,12 +27,12 @@ CELL_H = 2 * R
 
 COUNT_CELL_HORIZONTAL = COUNT_CELL_VERTICAL = None
 
-if not exists("src/config.json"):
+if not exists("data/config.json"):
     global_settings = {"window": 2, "volume": 50, "skin": GREEN, "reload": False}
     rewrite(global_settings)
     COUNT_CELL_HORIZONTAL = COUNT_CELL_VERTICAL = MIDDLE
 else:
-    with open("src/config.json") as f:
+    with open("data/config.json") as f:
         global_settings = loads(f.read())
         match int(global_settings["window"]):
             case 0:
